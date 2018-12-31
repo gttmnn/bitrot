@@ -110,6 +110,7 @@ def list_existing_paths(directory, expected=(), ignored=(), follow_links=False):
         for f in files:
             p = os.path.join(path, f)
 
+            # Ignore hidden files for now
             if '/.' in p.decode('utf-8'):
                 continue
 
