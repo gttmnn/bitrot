@@ -109,6 +109,10 @@ def list_existing_paths(directory, expected=(), ignored=(), follow_links=False):
     for path, _, files in os.walk(directory):
         for f in files:
             p = os.path.join(path, f)
+
+            if '/.' in p.decode('utf-8'):
+                continue
+
             try:
                 p_uni = p.decode(FSENCODING)
             except UnicodeDecodeError:
@@ -261,7 +265,7 @@ class Bitrot(object):
             cur.execute('DELETE FROM bitrot WHERE path=?', (path,))
 
         conn.commit()
-        
+
         if not self.test:
             cur.execute('vacuum')
 
@@ -298,7 +302,7 @@ class Bitrot(object):
         result = {}
         cur.execute('SELECT hash, path FROM bitrot')
         row = cur.fetchone()
-        while row: 
+        while row:
             rhash, rpath = row
             result.setdefault(rhash, set()).add(rpath)
             row = cur.fetchone()
@@ -376,8 +380,8 @@ class Bitrot(object):
             )
 
             return renamed
-        
-        # From hashes[new_sha1] or found.pop() 
+
+        # From hashes[new_sha1] or found.pop()
         except (KeyError,IndexError):
             cur.execute(
                 'INSERT INTO bitrot VALUES (?, ?, ?, ?)',
