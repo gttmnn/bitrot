@@ -1,2 +1,6 @@
 .bitrot.db
 .bitrot.sha512
+build
+dist
+*.pyc
+*.egg-info
