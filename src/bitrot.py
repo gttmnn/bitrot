@@ -392,7 +392,7 @@ class Bitrot(object):
 
 def get_path(directory=b'.', ext=b'db'):
     """Compose the path to the selected bitrot file."""
-    return os.path.join(directory, b'.bitrot.' + ext)
+    return os.path.join(directory, b'bitrot.' + ext)
 
 
 def stable_sum(bitrot_db=None):
